@@ -1,0 +1,64 @@
+org: mariora
+
+service: grupo5-proyecto
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  profile: default  
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DescribeTable
+      - dynamodb:Put
+      - dynamodb:Get
+      - dynamodb:Scan
+    Resource: arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew
+  - Effect: Allow
+    Action:
+      - logs:CreateLogStream
+      - logs:CreateLogGroup
+      - logs:TagResource
+    Resource: arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:* 
+  - Effect: Allow
+    Action:
+      - logs:PutLogEvents
+    Resource: arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*
+
+ 
+functions:
+  createProduct:
+    handler: handler/createProduct.createProduct  
+    events:
+      - http:
+          path: /products
+          method: post
+
+  getProducts:
+    handler: handler/getProducts.getProducts  
+    events:
+      - http:
+          path: /products
+          method: get
+
+plugins:
+  - serverless-offline
+
+resources:
+  Resources:
+    Grupo5Table:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Grupo5TableNew  
+        AttributeDefinitions:
+          - AttributeName: ProductID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ProductID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

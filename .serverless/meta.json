@@ -1,0 +1,1263 @@
+{
+  "C:\\Users\\compu\\Documents\\.serverless\\AWS\\Grupo5_Proyecto": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.16",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "sls": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "org": "mariora",
+            "service": "grupo5-proyecto",
+            "provider": {
+              "name": "aws",
+              "runtime": "nodejs18.x",
+              "stage": "dev",
+              "profile": "default",
+              "iamRoleStatements": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DescribeTable",
+                    "dynamodb:Put",
+                    "dynamodb:Get",
+                    "dynamodb:Scan"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:TagResource"
+                  ],
+                  "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+                }
+              ],
+              "region": "us-east-1",
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "CreateProductLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/grupo5-proyecto-dev-createProduct"
+                    }
+                  },
+                  "GetProductsLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/grupo5-proyecto-dev-getProducts"
+                    }
+                  },
+                  "IamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "grupo5-proyecto",
+                                "dev",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:TagResource"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "dynamodb:PutItem",
+                                  "dynamodb:UpdateItem",
+                                  "dynamodb:DescribeTable",
+                                  "dynamodb:Put",
+                                  "dynamodb:Get",
+                                  "dynamodb:Scan"
+                                ],
+                                "Resource": "arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew"
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:TagResource"
+                                ],
+                                "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": {
+                        "Fn::Join": [
+                          "-",
+                          [
+                            "grupo5-proyecto",
+                            "dev",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "lambdaRole"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "CreateProductLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+                        "S3Key": "serverless/grupo5-proyecto/dev/1734239425444-2024-12-15T05:10:25.444Z/grupo5-proyecto.zip"
+                      },
+                      "Handler": "handler/createProduct.createProduct",
+                      "Runtime": "nodejs18.x",
+                      "FunctionName": "grupo5-proyecto-dev-createProduct",
+                      "MemorySize": 1024,
+                      "Timeout": 6,
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "IamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "CreateProductLogGroup"
+                    ]
+                  },
+                  "GetProductsLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+                        "S3Key": "serverless/grupo5-proyecto/dev/1734239425444-2024-12-15T05:10:25.444Z/grupo5-proyecto.zip"
+                      },
+                      "Handler": "handler/getProducts.getProducts",
+                      "Runtime": "nodejs18.x",
+                      "FunctionName": "grupo5-proyecto-dev-getProducts",
+                      "MemorySize": 1024,
+                      "Timeout": 6,
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "IamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "GetProductsLogGroup"
+                    ]
+                  },
+                  "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "CreateProductLambdaFunction"
+                      },
+                      "CodeSha256": "3/MtEmf9ZY8MxOGvF6ikMHXWqOJIzJ9q7G1Aty8BXmc="
+                    }
+                  },
+                  "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "GetProductsLambdaFunction"
+                      },
+                      "CodeSha256": "3/MtEmf9ZY8MxOGvF6ikMHXWqOJIzJ9q7G1Aty8BXmc="
+                    }
+                  },
+                  "ApiGatewayRestApi": {
+                    "Type": "AWS::ApiGateway::RestApi",
+                    "Properties": {
+                      "Name": "dev-grupo5-proyecto",
+                      "EndpointConfiguration": {
+                        "Types": [
+                          "EDGE"
+                        ]
+                      },
+                      "Policy": ""
+                    }
+                  },
+                  "ApiGatewayResourceProducts": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "PathPart": "products",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodProductsPost": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "POST",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceProducts"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "CreateProductLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "CreateProductLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayMethodProductsGet": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "GET",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceProducts"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "GetProductsLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "GetProductsLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayDeployment1734239409938": {
+                    "Type": "AWS::ApiGateway::Deployment",
+                    "Properties": {
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "StageName": "dev"
+                    },
+                    "DependsOn": [
+                      "ApiGatewayMethodProductsPost",
+                      "ApiGatewayMethodProductsGet"
+                    ]
+                  },
+                  "CreateProductLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "CreateProductLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "GetProductsLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "GetProductsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "Grupo5Table": {
+                    "Type": "AWS::DynamoDB::Table",
+                    "Properties": {
+                      "TableName": "Grupo5TableNew",
+                      "AttributeDefinitions": [
+                        {
+                          "AttributeName": "ProductID",
+                          "AttributeType": "S"
+                        }
+                      ],
+                      "KeySchema": [
+                        {
+                          "AttributeName": "ProductID",
+                          "KeyType": "HASH"
+                        }
+                      ],
+                      "ProvisionedThroughput": {
+                        "ReadCapacityUnits": 5,
+                        "WriteCapacityUnits": 5
+                      }
+                    }
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+                    "Export": {
+                      "Name": "sls-grupo5-proyecto-dev-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "CreateProductLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA"
+                    },
+                    "Export": {
+                      "Name": "sls-grupo5-proyecto-dev-CreateProductLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "GetProductsLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs"
+                    },
+                    "Export": {
+                      "Name": "sls-grupo5-proyecto-dev-GetProductsLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "ServiceEndpoint": {
+                    "Description": "URL of the service endpoint",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "https://",
+                          {
+                            "Ref": "ApiGatewayRestApi"
+                          },
+                          ".execute-api.",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".",
+                          {
+                            "Ref": "AWS::URLSuffix"
+                          },
+                          "/dev"
+                        ]
+                      ]
+                    },
+                    "Export": {
+                      "Name": "sls-grupo5-proyecto-dev-ServiceEndpoint"
+                    }
+                  }
+                }
+              },
+              "vpc": {}
+            },
+            "functions": {
+              "createProduct": {
+                "handler": "handler/createProduct.createProduct",
+                "events": [
+                  {
+                    "http": {
+                      "path": "products",
+                      "method": "post",
+                      "integration": "AWS_PROXY"
+                    }
+                  }
+                ],
+                "name": "grupo5-proyecto-dev-createProduct",
+                "package": {},
+                "memory": 1024,
+                "timeout": 6,
+                "runtime": "nodejs18.x",
+                "vpc": {},
+                "versionLogicalId": "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA"
+              },
+              "getProducts": {
+                "handler": "handler/getProducts.getProducts",
+                "events": [
+                  {
+                    "http": {
+                      "path": "products",
+                      "method": "get",
+                      "integration": "AWS_PROXY"
+                    }
+                  }
+                ],
+                "name": "grupo5-proyecto-dev-getProducts",
+                "package": {},
+                "memory": 1024,
+                "timeout": 6,
+                "runtime": "nodejs18.x",
+                "vpc": {},
+                "versionLogicalId": "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs"
+              }
+            },
+            "plugins": [
+              "serverless-offline"
+            ],
+            "resources": {
+              "Resources": {
+                "Grupo5Table": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "Grupo5TableNew",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "ProductID",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "ProductID",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
+                }
+              },
+              "Outputs": {}
+            }
+          },
+          "configFileDirPath": "C:\\Users\\compu\\Documents\\.serverless\\AWS\\Grupo5_Proyecto",
+          "config": {
+            "type": "sls"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:sls",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "C:\\Users\\compu\\Documents\\.serverless\\AWS\\Grupo5_Proyecto",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "mariora",
+      "service": "grupo5-proyecto",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "stage": "dev",
+        "profile": "default",
+        "iamRoleStatements": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "dynamodb:PutItem",
+              "dynamodb:UpdateItem",
+              "dynamodb:DescribeTable",
+              "dynamodb:Put",
+              "dynamodb:Get",
+              "dynamodb:Scan"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew"
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+              "logs:CreateLogStream",
+              "logs:CreateLogGroup",
+              "logs:TagResource"
+            ],
+            "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+              "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+          }
+        ],
+        "region": "us-east-1",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "CreateProductLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/grupo5-proyecto-dev-createProduct"
+              }
+            },
+            "GetProductsLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/grupo5-proyecto-dev-getProducts"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "grupo5-proyecto",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "dynamodb:PutItem",
+                            "dynamodb:UpdateItem",
+                            "dynamodb:DescribeTable",
+                            "dynamodb:Put",
+                            "dynamodb:Get",
+                            "dynamodb:Scan"
+                          ],
+                          "Resource": "arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew"
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*"
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": "arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "grupo5-proyecto",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "CreateProductLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+                  "S3Key": "serverless/grupo5-proyecto/dev/1734239425444-2024-12-15T05:10:25.444Z/grupo5-proyecto.zip"
+                },
+                "Handler": "handler/createProduct.createProduct",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "grupo5-proyecto-dev-createProduct",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "CreateProductLogGroup"
+              ]
+            },
+            "GetProductsLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+                  "S3Key": "serverless/grupo5-proyecto/dev/1734239425444-2024-12-15T05:10:25.444Z/grupo5-proyecto.zip"
+                },
+                "Handler": "handler/getProducts.getProducts",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "grupo5-proyecto-dev-getProducts",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetProductsLogGroup"
+              ]
+            },
+            "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "CreateProductLambdaFunction"
+                },
+                "CodeSha256": "3/MtEmf9ZY8MxOGvF6ikMHXWqOJIzJ9q7G1Aty8BXmc="
+              }
+            },
+            "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetProductsLambdaFunction"
+                },
+                "CodeSha256": "3/MtEmf9ZY8MxOGvF6ikMHXWqOJIzJ9q7G1Aty8BXmc="
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-grupo5-proyecto",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceProducts": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "products",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodProductsPost": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "POST",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceProducts"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "CreateProductLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "CreateProductLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodProductsGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceProducts"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "GetProductsLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "GetProductsLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1734239409938": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodProductsPost",
+                "ApiGatewayMethodProductsGet"
+              ]
+            },
+            "CreateProductLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "CreateProductLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetProductsLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetProductsLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "Grupo5Table": {
+              "Type": "AWS::DynamoDB::Table",
+              "Properties": {
+                "TableName": "Grupo5TableNew",
+                "AttributeDefinitions": [
+                  {
+                    "AttributeName": "ProductID",
+                    "AttributeType": "S"
+                  }
+                ],
+                "KeySchema": [
+                  {
+                    "AttributeName": "ProductID",
+                    "KeyType": "HASH"
+                  }
+                ],
+                "ProvisionedThroughput": {
+                  "ReadCapacityUnits": 5,
+                  "WriteCapacityUnits": 5
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+              "Export": {
+                "Name": "sls-grupo5-proyecto-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "CreateProductLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA"
+              },
+              "Export": {
+                "Name": "sls-grupo5-proyecto-dev-CreateProductLambdaFunctionQualifiedArn"
+              }
+            },
+            "GetProductsLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs"
+              },
+              "Export": {
+                "Name": "sls-grupo5-proyecto-dev-GetProductsLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-grupo5-proyecto-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "functions": {
+        "createProduct": {
+          "handler": "handler/createProduct.createProduct",
+          "events": [
+            {
+              "http": {
+                "path": "products",
+                "method": "post",
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "name": "grupo5-proyecto-dev-createProduct",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "CreateProductLambdaVersion2kZddSSxO7CSl9OEaYDuks3dCKXKSl4QNWEO2NqA"
+        },
+        "getProducts": {
+          "handler": "handler/getProducts.getProducts",
+          "events": [
+            {
+              "http": {
+                "path": "products",
+                "method": "get",
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "name": "grupo5-proyecto-dev-getProducts",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "GetProductsLambdaVersionRqG7xuxOnRKFtuRSZ58F76JBt1Tl57RpzvQvEj0XAs"
+        }
+      },
+      "plugins": [
+        "serverless-offline"
+      ],
+      "resources": {
+        "Resources": {
+          "Grupo5Table": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "Grupo5TableNew",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "ProductID",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "ProductID",
+                  "KeyType": "HASH"
+                }
+              ],
+              "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+              }
+            }
+          }
+        },
+        "Outputs": {}
+      }
+    },
+    "serviceRawFile": "org: mariora\r\n\r\nservice: grupo5-proyecto\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  profile: default  \r\n  iamRoleStatements:\r\n  - Effect: Allow\r\n    Action:\r\n      - dynamodb:PutItem\r\n      - dynamodb:UpdateItem\r\n      - dynamodb:DescribeTable\r\n      - dynamodb:Put\r\n      - dynamodb:Get\r\n      - dynamodb:Scan\r\n    Resource: arn:aws:dynamodb:us-east-1:329599633800:table/Grupo5TableNew\r\n  - Effect: Allow\r\n    Action:\r\n      - logs:CreateLogStream\r\n      - logs:CreateLogGroup\r\n      - logs:TagResource\r\n    Resource: arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:* \r\n  - Effect: Allow\r\n    Action:\r\n      - logs:PutLogEvents\r\n    Resource: arn:aws:logs:us-east-1:329599633800:log-group:/aws/lambda/grupo5-proyecto-dev*:*:*\r\n\r\n \r\nfunctions:\r\n  createProduct:\r\n    handler: handler/createProduct.createProduct  \r\n    events:\r\n      - http:\r\n          path: /products\r\n          method: post\r\n\r\n  getProducts:\r\n    handler: handler/getProducts.getProducts  \r\n    events:\r\n      - http:\r\n          path: /products\r\n          method: get\r\n\r\nplugins:\r\n  - serverless-offline\r\n\r\nresources:\r\n  Resources:\r\n    Grupo5Table:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: Grupo5TableNew  \r\n        AttributeDefinitions:\r\n          - AttributeName: ProductID\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: ProductID\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "c14fd1b7de6554168cfea8648db18623",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "08ebdd89-4a70-4ed4-b63a-6b7cf4cbb081",
+    "orgName": "mariora",
+    "userId": "zKJ2JY8Qh5d1kdyZJz",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "mariora",
+    "subscription": null,
+    "userEmail": "mrpazmino2@espe.edu.ec",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "329599633800",
+    "projectType": "traditional",
+    "versionSf": "4.4.16",
+    "serviceProviderAwsCfStackName": "grupo5-proyecto-dev",
+    "integrations": {},
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:329599633800:stack/grupo5-proyecto-dev/25700510-ba90-11ef-bd1e-0affd1fee9b1",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:329599633800:stack/grupo5-proyecto-dev/25700510-ba90-11ef-bd1e-0affd1fee9b1",
+    "serviceProviderAwsCfStackCreated": "2024-12-15T02:56:13.936Z",
+    "serviceProviderAwsCfStackUpdated": "2024-12-15T05:10:38.622Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "CreateProductLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:329599633800:function:grupo5-proyecto-dev-createProduct:13",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-grupo5-proyecto-dev-CreateProductLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://9u69jiv3ba.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-grupo5-proyecto-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-37577638-8f8c",
+        "ExportName": "sls-grupo5-proyecto-dev-ServerlessDeploymentBucketName"
+      },
+      {
+        "OutputKey": "GetProductsLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:329599633800:function:grupo5-proyecto-dev-getProducts:13",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-grupo5-proyecto-dev-GetProductsLambdaFunctionQualifiedArn"
+      }
+    ]
+  }
+}
